@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:translator/translator.dart';
 
 class LanguageTranslationPage extends StatefulWidget {
   const LanguageTranslationPage({super.key});
@@ -15,6 +16,31 @@ class _LanguageTranslationPageState extends State<LanguageTranslationPage> {
   var output = "";
 
   TextEditingController languageController = TextEditingController();
+
+  void translate(String src, String dest, String input) async {
+    GoogleTranslator translator = new GoogleTranslator();
+    var translation = await translator.translate(input, from: src, to: dest);
+    setState(() {
+      output = translation.text.toString();
+    });
+
+    if (src == '--' || dest == '--') {
+      setState(() {
+        output = 'Fail to translate';
+      });
+    }
+  }
+
+  String getLanguageCode(String language) {
+    if (language == 'English') {
+      return 'en';
+    } else if (language == 'Tamil') {
+      return 'ta';
+    } else if (language == 'Hindi') {
+      return 'hi';
+    }
+    return '--';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -108,8 +134,29 @@ class _LanguageTranslationPageState extends State<LanguageTranslationPage> {
                       labelStyle: TextStyle(color: Colors.white),
                       errorStyle: TextStyle(color: Colors.red)),
                   controller: languageController,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter text to translate';
+                    }
+                    return null;
+                  },
                 ),
-              )
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8),
+                child: ElevatedButton(
+                    onPressed: () {
+                      translate(
+                          getLanguageCode(originLanguage),
+                          getLanguageCode(destinationLanguage),
+                          languageController.text.toString());
+                    },
+                    child: const Text('Translate')),
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              Text(output,style: const TextStyle(color: Colors.white),)
             ],
           ),
         ),
