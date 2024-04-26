@@ -156,7 +156,7 @@ class _LanguageTranslationPageState extends State<LanguageTranslationPage> {
               const SizedBox(
                 height: 30,
               ),
-              Text(output,style: const TextStyle(color: Colors.white),)
+              Text(output,style: const TextStyle(color: Color.fromARGB(255, 92, 105, 195)),)
             ],
           ),
         ),
