@@ -96,7 +96,7 @@ class _LanguageTranslationPageState extends State<LanguageTranslationPage> {
                 ],
               ),
               const SizedBox(
-                height: 40,
+                height: 100,
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 500),
